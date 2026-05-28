@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
   },
   feed: {
     width: '100%',
-    gap: 10,
+    gap: 5,
     paddingHorizontal: 16,
     paddingTop: 30,
     maxHeight: 800,
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 12,
     paddingVertical: 20,
-    marginTop: 20,
+    marginTop: 5,
   },
   button: {
     backgroundColor: '#8b5cf6',
