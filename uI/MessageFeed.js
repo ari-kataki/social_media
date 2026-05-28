@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     marginBottom: 16,
+    justifyContent: 'space-between',
   },
   feed: {
     width: '100%',
@@ -125,7 +126,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     gap: 12,
-    paddingVertical: 12,
+    paddingVertical: 20,
+    marginTop: 20,
   },
   button: {
     backgroundColor: '#8b5cf6',
