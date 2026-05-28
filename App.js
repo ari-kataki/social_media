@@ -6,7 +6,6 @@ import MessageFeed from './uI/MessageFeed';
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text style={styles.smiley}>😊</Text>
       <InputAndButton buttonLabel='click' inputLabel='Write here' ></InputAndButton>
       <MessageFeed />
       <Text style={styles.text}>Hello World!</Text>

@@ -80,7 +80,8 @@ const styles = StyleSheet.create({
     width: '100%',
     gap: 10,
     paddingHorizontal: 16,
-    maxHeight: 400,
+    paddingTop: 30,
+    maxHeight: 800,
   },
   card: {
     backgroundColor: 'white',
