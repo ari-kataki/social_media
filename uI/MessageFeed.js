@@ -1,117 +1,13 @@
 import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
 import { useState } from 'react';
+import rawMessages from '../data/messages.json';
+import { userProfiles } from '../data/userProfiles';
 
-const messages = [
-  {
-    id: 1,
-    username: 'paolo@gmail.com',
-    text: 'Hello! First message here ',
-    time: '10:30 AM',
-    initials: 'P',
-    avatarColor: '#d8b4fe',
-    avatarText: '#6b21a8',
-  },
-  {
-    id: 2,
-    username: 'franco@gmail.com',
-    text: 'Hello! Second message here',
-    time: '10:45 AM',
-    initials: 'F',
-    avatarColor: '#bbf7d0',
-    avatarText: '#166534',
-  },
-  {
-    id: 3,
-    username: 'franco@gmail.com',
-    text: 'Hello! Third message here',
-    time: '10:50 AM',
-    initials: 'F',
-    avatarColor: '#bbf7d0',
-    avatarText: '#166534',
-  },
-  {
-    id: 4,
-    username: 'franco@gmail.com',
-    text: 'Hello! Fourth message here',
-    time: '10:55 AM',
-    initials: 'F',
-    avatarColor: '#bbf7d0',
-    avatarText: '#166534',
-  },
-  {
-    id: 5,
-    username: 'franco@gmail.com',
-    text: 'Hello! Fifth message here',
-    time: '11:00 AM',
-    initials: 'F',
-    avatarColor: '#bbf7d0',
-    avatarText: '#166534',
-  },
-  {
-    id: 6,
-    username: 'franco@gmail.com',
-    text: 'Hello! Sixth message here',
-    time: '11:05 AM',
-    initials: 'F',
-    avatarColor: '#bbf7d0',
-    avatarText: '#166534',
-  },
-  {
-    id: 7,
-    username: 'franco@gmail.com',
-    text: 'Hello! Seventh message here',
-    time: '11:10 AM',
-    initials: 'F',
-    avatarColor: '#bbf7d0',
-    avatarText: '#166534',
-  },
-  {
-    id: 8,
-    username: 'franco@gmail.com',
-    text: 'Hello! Eighth message here',
-    time: '11:15 AM',
-    initials: 'F',
-    avatarColor: '#bbf7d0',
-    avatarText: '#166534',
-  },
-  {
-    id: 9,
-    username: 'franco@gmail.com',
-    text: 'Hello! Ninth message here',
-    time: '11:20 AM',
-    initials: 'F',
-    avatarColor: '#bbf7d0',
-    avatarText: '#166534',
-  },
-  {
-    id: 10,
-    username: 'franco@gmail.com',
-    text: 'Hello! Tenth message here',
-    time: '11:25 AM',
-    initials: 'F',
-    avatarColor: '#bbf7d0',
-    avatarText: '#166534',
-  },
-  {
-    id: 11,
-    username: 'franco@gmail.com',
-    text: 'Hello! Seventh message here',
-    time: '11:10 AM',
-    initials: 'F',
-    avatarColor: '#bbf7d0',
-    avatarText: '#166534',
-  },
-  {
-    id: 12,
-    username: 'franco@gmail.com',
-    text: 'Hello! Seventh message here',
-    time: '11:10 AM',
-    initials: 'F',
-    avatarColor: '#bbf7d0',
-    avatarText: '#166534',
-  },
-
-];
+// Enrich messages with user profile data
+const messages = rawMessages.map(msg => ({
+  ...msg,
+  ...userProfiles[msg.username],
+}));
 
 export default function MessageFeed() {
   const [currentPage, setCurrentPage] = useState(1);
