@@ -1,39 +1,32 @@
+// imports
 import { View, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { useMemo } from 'react';
 import Message from './Message';
 
-const INITIAL_SIZE = 10;
-const PAGE_SIZE = 5;
-
-export default function MessageFeed({ messages, onDelete, onEdit }) {
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
-    queryKey: ['messages', messages],
-    initialPageParam: 0,
-    queryFn: ({ pageParam }) =>
-      pageParam === 0
-        ? messages.slice(0, INITIAL_SIZE)
-        : messages.slice(pageParam, pageParam + PAGE_SIZE),
-    getNextPageParam: (lastPage, allPages) => {
-      const loaded = allPages.flat().length;
-      return loaded < messages.length ? loaded : undefined;
-    },
-  });
-
-  const allMessages = useMemo(() => data?.pages.flat() || [], [data]);
-
+export default function MessageFeed({
+  messages,
+  username,
+  loading,
+  onLoadMore,
+  onDelete,
+  onEdit,
+}) {
+  // scrollable feed
   return (
     <View style={styles.container}>
       <FlatList
-        data={allMessages}
+        data={messages}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.feedContent}
         style={styles.feed}
-        onEndReached={() => hasNextPage && !isFetchingNextPage && fetchNextPage()}
+        onEndReached={onLoadMore}
         onEndReachedThreshold={0.2}
         ListFooterComponent={
-          isFetchingNextPage ? (
-            <ActivityIndicator color="blue" size="small" style={{ marginBottom: 10 }} />
+          loading ? (
+            <ActivityIndicator
+              color="#a855f7"
+              size="small"
+              style={{ marginBottom: 10 }}
+            />
           ) : null
         }
         renderItem={({ item }) => (
@@ -45,6 +38,7 @@ export default function MessageFeed({ messages, onDelete, onEdit }) {
             initials={item.initials}
             avatarColor={item.avatarColor}
             avatarText={item.avatarText}
+            canEdit={item.username === username}
             onDelete={onDelete}
             onEdit={onEdit}
           />
@@ -54,6 +48,7 @@ export default function MessageFeed({ messages, onDelete, onEdit }) {
   );
 }
 
+// styles
 export const styles = StyleSheet.create({
   container: {
     flex: 1,

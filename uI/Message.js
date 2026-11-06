@@ -1,15 +1,37 @@
-import { View, Text, StyleSheet, Pressable, TextInput, Alert } from 'react-native';
+// imports
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  TextInput,
+  Alert,
+} from 'react-native';
 import { useState } from 'react';
 
-export default function Message({ id, username, text, time, initials, avatarColor, avatarText, onDelete, onEdit }) {
+export default function Message({
+  id,
+  username,
+  text,
+  time,
+  initials,
+  avatarColor,
+  avatarText,
+  canEdit,
+  onDelete,
+  onEdit,
+}) {
+  // state: edit mode and the text being edited
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState(text);
 
+  // save the edited text and leave edit mode
   const handleSave = () => {
     onEdit(id, editedText);
     setIsEditing(false);
   };
 
+  // ask for confirmation before deleting
   const handleDelete = () => {
     Alert.alert(
       'Delete message',
@@ -21,22 +43,26 @@ export default function Message({ id, username, text, time, initials, avatarColo
     );
   };
 
+  // message card
   return (
     <View style={styles.card}>
+      {/* avatar */}
       <View style={[styles.avatar, { backgroundColor: avatarColor }]}>
         <Text style={[styles.avatarText, { color: avatarText }]}>
           {initials}
         </Text>
       </View>
-      
+
       <View style={styles.content}>
+        {/* username and time */}
         <View style={styles.headerRow}>
           <Text style={styles.username}>{username}</Text>
           <Text style={styles.time}>{time}</Text>
         </View>
-        
+
+        {/* message text or edit input */}
         {isEditing ? (
-          <TextInput 
+          <TextInput
             style={styles.input}
             value={editedText}
             onChangeText={setEditedText}
@@ -46,39 +72,52 @@ export default function Message({ id, username, text, time, initials, avatarColo
         ) : (
           <Text style={styles.text}>{text}</Text>
         )}
-        
-        <View style={styles.actionRow}>
-          {isEditing ? (
-            <Pressable style={[styles.button, styles.saveButton]} onPress={handleSave}>
-              <Text style={styles.saveButtonText}>Save </Text>
+
+        {/* modify / save and delete buttons (only on my messages) */}
+        {canEdit ? (
+          <View style={styles.actionRow}>
+            {isEditing ? (
+              <Pressable
+                style={[styles.button, styles.saveButton]}
+                onPress={handleSave}
+              >
+                <Text style={styles.saveButtonText}>Save </Text>
+              </Pressable>
+            ) : (
+              <Pressable
+                style={[styles.button, styles.editButton]}
+                onPress={() => {
+                  setEditedText(text);
+                  setIsEditing(true);
+                }}
+              >
+                <Text style={styles.editButtonText}>Modify </Text>
+              </Pressable>
+            )}
+
+            <Pressable
+              style={[styles.button, styles.deleteButton]}
+              onPress={handleDelete}
+            >
+              <Text style={styles.deleteButtonText}>Delete </Text>
             </Pressable>
-          ) : (
-            <Pressable style={[styles.button, styles.editButton]} onPress={() => setIsEditing(true)}>
-              <Text style={styles.editButtonText}>Modify </Text>
-            </Pressable>
-          )}
-          
-          <Pressable style={[styles.button, styles.deleteButton]} onPress={handleDelete}>
-            <Text style={styles.deleteButtonText}>Delete </Text>
-          </Pressable>
-        </View>
+          </View>
+        ) : null}
       </View>
     </View>
   );
 }
 
+// styles
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: 'white',
+    backgroundColor: '#1a1326',
     borderRadius: 14,
+    borderWidth: 1,
+    borderColor: '#2d2342',
     padding: 14,
     flexDirection: 'row',
     gap: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.08,
-    shadowRadius: 4,
-    elevation: 2, 
   },
   avatar: {
     width: 40,
@@ -103,29 +142,29 @@ const styles = StyleSheet.create({
   username: {
     fontSize: 13,
     fontWeight: '600',
-    color: '#1f2937',
+    color: '#f3e8ff',
   },
   time: {
     fontSize: 11,
-    color: '#9ca3af',
+    color: '#7c6f94',
   },
   text: {
     fontSize: 14,
-    color: '#4b5563',
+    color: '#d1c4e9',
     lineHeight: 20,
     marginBottom: 8,
   },
   input: {
     fontSize: 14,
-    color: '#4b5563',
-    backgroundColor: '#f3f4f6',
+    color: '#f3e8ff',
+    backgroundColor: '#0f0a1a',
     borderRadius: 8,
     padding: 8,
     borderWidth: 1,
-    borderColor: '#d1d5db',
+    borderColor: '#3b2a5c',
     marginBottom: 8,
   },
-  
+
   actionRow: {
     flexDirection: 'row',
     gap: 8,
@@ -139,32 +178,32 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   editButton: {
-    backgroundColor: '#f3e8ff',
+    backgroundColor: '#2a1a45',
     borderWidth: 1,
-    borderColor: '#c084fc',
+    borderColor: '#a855f7',
   },
   editButtonText: {
-    color: '#6b21a8', 
+    color: '#d8b4fe',
     fontSize: 12,
     fontWeight: '600',
   },
   saveButton: {
-    backgroundColor: '#bbf7d0', 
+    backgroundColor: '#14301f',
     borderWidth: 1,
-    borderColor: '#4ade80',
+    borderColor: '#22c55e',
   },
   saveButtonText: {
-    color: '#166534', 
+    color: '#86efac',
     fontSize: 12,
     fontWeight: '600',
   },
   deleteButton: {
-    backgroundColor: '#fee2e2', 
+    backgroundColor: '#3a1520',
     borderWidth: 1,
-    borderColor: '#fca5a5',
+    borderColor: '#ef4444',
   },
   deleteButtonText: {
-    color: '#991b1b', 
+    color: '#fca5a5',
     fontSize: 12,
     fontWeight: '600',
   },
